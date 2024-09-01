@@ -1,34 +1,22 @@
-const WebSocket = require('ws');
-const http = require('http');
-const { setupWSConnection } = require('y-websocket/bin/utils');
-const url = require('url');
-// require('dotenv').config();
+const WebSocket = require('ws')
+const http = require('http')
+const { setupWSConnection } = require('y-websocket/bin/utils')
 
-const port = process.env.PORT || 1234;
-// const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN; // Replace with your client's domain
-
+const port = process.env.PORT || 1234
 const server = http.createServer((request, response) => {
-  response.writeHead(200, { 'Content-Type': 'text/plain' });
-  response.end('y-websocket server running');
-});
+  response.writeHead(200, { 'Content-Type': 'text/plain' })
+  response.end('y-websocket server running')
+})
 
-const wss = new WebSocket.Server({ noServer: true });
+const wss = new WebSocket.Server({ server })
 
-// server.on('upgrade', (request, socket, head) => {
-//   const origin = request.headers.origin;
-
-//   if (origin === ALLOWED_ORIGIN) {
-//     wss.handleUpgrade(request, socket, head, (ws) => {
-//       wss.emit('connection', ws, request);
-//     });
-//   } else {
-//     socket.destroy();
-//     console.log(`Rejected connection from disallowed origin: ${origin}`);
-//   }
-// });
-
-wss.on('connection', setupWSConnection);
+wss.on('connection', setupWSConnection)
 
 server.listen(port, () => {
-  console.log(`y-websocket server running on port ${port}`);
-});
+  console.log(`y-websocket server running on port ${port}`)
+})
+
+//* y-websocket.d.ts
+// declare module 'y-websocket/bin/utils' {
+//   export function setupWSConnection(conn: any, req: any, options?: any): void;
+// }
